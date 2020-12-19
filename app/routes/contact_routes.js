@@ -30,12 +30,22 @@ const router = express.Router()
 // index route
 router.get('/contacts', requireToken, (req, res, next) => {
   Contact.find({ owner: req.user.id })
-    // .populate('map')
+    .populate('map')
     .then(contacts => {
       return contacts.map(contact => contact.toObject())
     })
     .then(contacts => res.status(200).json({ contacts }))
     .catch(next)
+})
+
+// show route
+router.get('/contacts/:id', requireToken, (req, res, next) => {
+  Contact.findById(req.params.id)
+    // .populate('map')
+    .then(handle404)
+    .then(contact => res.status(200).json({ contact: contact.toObject() }))
+    .catch(next)
+
 })
 
 // create route
@@ -45,5 +55,22 @@ router.post('/contacts', requireToken, (req, res, next) => {
     .then(contact => res.status(201).json({ contact }))
     .catch(next)
 })
+
+// update route
+router.patch('/contacts/:id', requireToken, (req, res, next) => {
+  delete req.body.contact.owner
+  Contact.findById(req.params.id)
+    .then(handle404)
+    .then(contact => {
+      requireOwnership(req, contact)
+      return contact.updateOne(req.body.contact)
+    })
+    .then(() => res.sendStatus(204))
+    .catch(next)
+})
+
+// destroy route
+
+
 
 module.exports = router
