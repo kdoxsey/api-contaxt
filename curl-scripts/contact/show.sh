@@ -6,4 +6,6 @@ URL_PATH="/contacts"
 curl "${API}${URL_PATH}/${ID}" \
   --include \
   --request GET \
-  --header "Authorization: Bearer Bearer ${TOKEN}"
+  --header "Authorization: Bearer ${TOKEN}"
+
+  echo
