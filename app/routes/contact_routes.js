@@ -70,7 +70,15 @@ router.patch('/contacts/:id', requireToken, (req, res, next) => {
 })
 
 // destroy route
-
-
+router.delete('/contacts/:id', requireToken, (req, res, next) => {
+  Contact.findById(req.params.id)
+    .then(handle404)
+    .then(contact => {
+      requireOwnership(req, contact)
+      contact.deleteOne()
+    })
+    .then(() => res.sendStatus(204))
+    .catch(next)
+})
 
 module.exports = router
