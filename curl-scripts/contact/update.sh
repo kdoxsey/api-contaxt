@@ -19,7 +19,7 @@ curl "${API}${URL_PATH}/${ID}" \
       "latitude": "'"${LATITUDE}"'",
       "longitude": "'"${LONGITUDE}"'",
       "note": "'"${NOTE}"'"
-    }g
+    }
   }'
 
 echo
