@@ -14,7 +14,8 @@ const customErrors = require('../../lib/custom_errors')
 const handle404 = customErrors.handle404
 // we'll use this function to send 401 when a user tries to modify a resource
 // that's owned by someone else
-const requireOwnership = customErrors.requireOwnership
+// const requireOwnership = customErrors.requireOwnership
+// ^uncomment this eventually
 
 // this is middleware that will remove blank fields from `req.body`, e.g.
 // { example: { title: '', text: 'foo' } } -> { example: { text: 'foo' } }
@@ -23,15 +24,16 @@ const removeBlanks = require('../../lib/remove_blank_fields')
 // so that a token MUST be passed for that route to be available
 // it will also set `req.user`
 
-const requireToken = passport.authenticate('bearer', { session: false })
+// const requireToken = passport.authenticate('bearer', { session: false })
 // ^ uncomment this eventually
 
 // instantiate a router (mini app that only handles routes)
 const router = express.Router()
 
 // index route
-router.get('/contacts', requireToken, (req, res, next) => {
-  Contact.find({ owner: req.user.id })
+router.get('/contacts', /*requireToken, */(req, res, next) => {
+  Contact.find(/*{ owner: req.user.id }*/)
+                    // ^ uncomment this eventually
     // .populate('map')
     .then(contacts => {
       return contacts.map(contact => contact.toObject())
@@ -41,7 +43,7 @@ router.get('/contacts', requireToken, (req, res, next) => {
 })
 
 // show route
-router.get('/contacts/:id', requireToken, (req, res, next) => {
+router.get('/contacts/:id', /*requireToken, */(req, res, next) => {
   Contact.findById(req.params.id)
     // .populate('map')
     .then(handle404)
@@ -51,16 +53,18 @@ router.get('/contacts/:id', requireToken, (req, res, next) => {
 })
 
 // create route
-router.post('/contacts', requireToken, (req, res, next) => {
-  req.body.contact.owner = req.user.id
+router.post('/contacts', /*requireToken, */(req, res, next) => {
+  // req.body.contact.owner = req.user.id
+  // ^ uncomment this eventually
   Contact.create(req.body.contact)
     .then(contact => res.status(201).json({ contact }))
     .catch(next)
 })
 
 // update route
-router.patch('/contacts/:id', requireToken, (req, res, next) => {
-  delete req.body.contact.owner
+router.patch('/contacts/:id', /*requireToken, */(req, res, next) => {
+  // delete req.body.contact.owner
+  // ^ uncomment this eventually
   Contact.findById(req.params.id)
     .then(handle404)
     .then(contact => {
@@ -72,15 +76,16 @@ router.patch('/contacts/:id', requireToken, (req, res, next) => {
 })
 
 // destroy route
-router.delete('/contacts/:id', requireToken, (req, res, next) => {
-  Contact.findById(req.params.id)
-    .then(handle404)
-    .then(contact => {
-      requireOwnership(req, contact)
-      contact.deleteOne()
-    })
-    .then(() => res.sendStatus(204))
-    .catch(next)
-})
+// router.delete('/contacts/:id', /*requireToken, */req, res, next) => {
+//   Contact.findById(req.params.id)
+//     .then(handle404)
+//     .then(contact => {
+//       requireOwnership(req, contact)
+//       contact.deleteOne()
+//     })
+//     .then(() => res.sendStatus(204))
+//     .catch(next)
+// })
+// ^ Uncomment destroy route after you fix the bug
 
 module.exports = router
