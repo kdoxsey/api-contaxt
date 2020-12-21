@@ -12,9 +12,14 @@ curl "${API}${URL_PATH}/${ID}" \
     "contact": {
       "firstName": "'"${FIRSTNAME}"'",
       "lastName": "'"${LASTNAME}"'",
+      "organizationName": "'"${ORGANIZATIONNAME}"'",
+      "emailAddress": "'"${EMAILADDRESS}"'",
+      "phoneNumber": "'"${PHONENUMBER}"'",
+      "streetAddress": "'"${STREETADDRESS}"'",
       "latitude": "'"${LATITUDE}"'",
-      "longitude": "'"${LONGITUDE}"'"
-    }
+      "longitude": "'"${LONGITUDE}"'",
+      "note": "'"${NOTE}"'"
+    }g
   }'
-  
+
 echo

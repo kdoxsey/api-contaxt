@@ -22,7 +22,9 @@ const removeBlanks = require('../../lib/remove_blank_fields')
 // passing this as a second argument to `router.<verb>` will make it
 // so that a token MUST be passed for that route to be available
 // it will also set `req.user`
+
 const requireToken = passport.authenticate('bearer', { session: false })
+// ^ uncomment this eventually
 
 // instantiate a router (mini app that only handles routes)
 const router = express.Router()
@@ -30,7 +32,7 @@ const router = express.Router()
 // index route
 router.get('/contacts', requireToken, (req, res, next) => {
   Contact.find({ owner: req.user.id })
-    .populate('map')
+    // .populate('map')
     .then(contacts => {
       return contacts.map(contact => contact.toObject())
     })
