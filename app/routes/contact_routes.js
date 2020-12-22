@@ -53,7 +53,6 @@ router.get('/contacts/:id', requireToken, (req, res, next) => {
 // create route
 router.post('/contacts', requireToken, (req, res, next) => {
   req.body.contact.owner = req.user.id
-
   Contact.create(req.body.contact)
     .then(contact => res.status(201).json({ contact }))
     .catch(next)
