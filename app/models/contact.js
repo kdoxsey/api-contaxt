@@ -3,27 +3,27 @@ const mongoose = require('mongoose')
 const contactSchema = new mongoose.Schema({
   firstName: {
     type: String,
-    required: true
+    required: false
   },
   lastName: {
     type: String,
-    required: true
+    required: false
   },
   organizationName: {
     type: String,
-    require: true
+    require: false
   },
   emailAddress: {
     type: String,
-    require: true
+    require: false
   },
   phoneNumber: {
     type: String,
-    require: true
+    require: false
   },
   streetAddress: {
     type: String,
-    required: true
+    required: false
   },
   latitude: {
     type: Number,
@@ -40,8 +40,7 @@ const contactSchema = new mongoose.Schema({
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: false
-    // ^ make true eventually
+    required: true
   },
 }, {
     timestamps: true

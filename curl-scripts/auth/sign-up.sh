@@ -11,6 +11,7 @@ curl "${API}${URL_PATH}" \
     "credentials": {
       "email": "'"${EMAIL}"'",
       "password": "'"${PASSWORD}"'",
+      "display_name": "'"${DISPLAYNAME}"'",
       "password_confirmation": "'"${PASSWORD}"'"
     }
   }'
