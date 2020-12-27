@@ -35,7 +35,7 @@ const contactSchema = new mongoose.Schema({
   },
   note: {
     type: String,
-    required: true
+    required: false
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
